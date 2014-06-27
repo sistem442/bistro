@@ -87,97 +87,97 @@ echo $message_flag;
 //price change
 $log = '';
 if(isset($_POST['submit2'])){
-    		//edit artikli table
-		$query = "UPDATE artikli SET cena ='".$_POST['cena']."' WHERE ime='".$_POST['ime']."'";
-		$log .= $query.'<br/>';
-			$result = $mysqli->query($query);
-			if ($mysqli->error) {
-				try {    
-					throw new Exception("MySQL error $mysqli->error <br> Query:<br> $query", $mysqli->errno);    
-				} catch(Exception $e ) {
-					echo "Error No: ".$e->getCode(). " - ". $e->getMessage() . "<br >";
-					echo nl2br($e->getTraceAsString());
-					echo '<span style="color:red"></br></br>Došlo je do greške pri izmeni cene.</span></br></br>';
-				}
-			}
-		//edit stanje table
-			//check if entry for selected date exits in stanje table	
-			$query = " SELECT id_artikla 
-						FROM stanje
-						WHERE id_artikla = ".$_POST['id']."
-						AND datum = '".$_POST['date_of_price_change']."'";
-			$log .= $query.'<br/>';
-			$result = $mysqli->query($query);
-			//echo $query.'<br/>';
-			//if there are no entrys insert new entry with same amount of goods and new price and update 
-			//all entrys in the future 			
-			if($result->num_rows == 0)
-			{
-				//get amount of goods for previous date
-				$query = " SELECT kolicina 
-						FROM stanje
-						WHERE id_artikla = ".$_POST['id']."
-						AND datum < '".$_POST['date_of_price_change']."'
-						ORDER BY datum DESC
-						LIMIT 0,1";
-				$result1 = $mysqli->query($query);
-				$log .= $query.'<br/>';
-				$obj1 = mysqli_fetch_object($result1);
-				//echo $query.'<br/>';
+    //edit artikli table
+    $query = "UPDATE artikli SET cena ='".$_POST['cena']."' WHERE ime='".$_POST['ime']."'";
+    $log .= $query.'<br/>';
+$result = $mysqli->query($query);
+if ($mysqli->error) {
+        try {    
+                throw new Exception("MySQL error $mysqli->error <br> Query:<br> $query", $mysqli->errno);    
+        } catch(Exception $e ) {
+                echo "Error No: ".$e->getCode(). " - ". $e->getMessage() . "<br >";
+                echo nl2br($e->getTraceAsString());
+                echo '<span style="color:red"></br></br>Došlo je do greške pri izmeni cene.</span></br></br>';
+        }
+}
+//edit stanje table
+//check if entry for selected date exits in stanje table	
+$query = " SELECT id_artikla 
+                        FROM stanje
+                        WHERE id_artikla = ".$_POST['id']."
+                        AND datum = '".$_POST['date_of_price_change']."'";
+$log .= $query.'<br/>';
+$result = $mysqli->query($query);
+//echo $query.'<br/>';
+//if there are no entrys insert new entry with same amount of goods and new price and update 
+//all entrys in the future 			
+if($result->num_rows == 0)
+{
+        //get amount of goods for previous date
+        $query = " SELECT kolicina 
+                        FROM stanje
+                        WHERE id_artikla = ".$_POST['id']."
+                        AND datum < '".$_POST['date_of_price_change']."'
+                        ORDER BY datum DESC
+                        LIMIT 0,1";
+        $result1 = $mysqli->query($query);
+        $log .= $query.'<br/>';
+        $obj1 = mysqli_fetch_object($result1);
+        //echo $query.'<br/>';
 
-				//insert new row into stanje table
-				$query = " INSERT INTO stanje(id_artikla,datum,kolicina,cena)
-							VALUES(	".$_POST['id'].",'".$_POST['date_of_price_change']."',".$obj1->kolicina.",".$_POST['cena'].")";
-				$result = $mysqli->query($query);
-				$log .= $query.'<br/>';
-				$result = $mysqli->query($query);
-				$log .= $query.'<br/>';
-				//echo $query.'<br/>';
-				$date_time = date('Y-m-d H:m:s');
-				$query = 'INSERT INTO log (query,date_time) VALUES ("'.$log.'", "'.$date_time.'")';
-                                
-				//update all rows in the future<
-				$query = "	UPDATE stanje 
-							SET cena ='".$_POST['cena']."' 
-							WHERE datum>'".$_POST['date_of_price_change']."'
-							AND id_artikla =  ".$_POST['id'];
-				$log .= $query.'<br/>';
-				$result = $mysqli->query($query);
-				$log .= $query.'<br/>';
-				//echo $query.'<br/>';
-				$date_time = date('Y-m-d H:m:s');
-				$query = 'INSERT INTO log (query,date_time) VALUES ("'.$log.'", "'.$date_time.'")';
-				//echo $query."</br>";
-				$result = $mysqli->query($query);
-                                $message = 'Cena je uspesno izmenjena, nova cena jeste:'.$_POST['cena'].' za artikal: '.$_POST['ime'];
-                                $message_flag = true;
-			}
- 			else
-			{
-				//if there is entry for selected date just update price for selected date and all dates in the future
-				$query = "	UPDATE stanje 
-							SET cena ='".$_POST['cena']."' 
-							WHERE datum>='".$_POST['date_of_price_change']."'
-							AND id_artikla =  ".$_POST['id'];
-				$log .= $query.'<br/>';
-				$result = $mysqli->query($query);
-				//echo $query;
-					if ($mysqli->error) {
-						try {    
-							throw new Exception("MySQL error $mysqli->error <br> Query:<br> $query", $mysqli->errno);    
-						} catch(Exception $e ) {
-							echo "Error No: ".$e->getCode(). " - ". $e->getMessage() . "<br >";
-							echo nl2br($e->getTraceAsString());
-							echo '<span style="color:red"></br></br>Došlo je do greške pri izmeni cene.</span></br></br>';
-						}
-					}
-				$date_time = date('Y-m-d H:m:s');
-				$query = 'INSERT INTO log (query,date_time) VALUES ("'.$log.'", "'.$date_time.'")';
-				//echo $query."</br>";
-				$result = $mysqli->query($query);
-                                $message = 'Cena je uspesno izmenjena, nova cena jeste:'.$_POST['cena'].' za artikal: '.$_POST['ime'];
-                                $message_flag = true;
-                                }
+        //insert new row into stanje table
+        $query = " INSERT INTO stanje(id_artikla,datum,kolicina,cena)
+                                VALUES(	".$_POST['id'].",'".$_POST['date_of_price_change']."',".$obj1->kolicina.",".$_POST['cena'].")";
+        $result = $mysqli->query($query);
+        $log .= $query.'<br/>';
+        $result = $mysqli->query($query);
+        $log .= $query.'<br/>';
+        //echo $query.'<br/>';
+        $date_time = date('Y-m-d H:m:s');
+        $query = 'INSERT INTO log (query,date_time) VALUES ("'.$log.'", "'.$date_time.'")';
+
+        //update all rows in the future<
+        $query = "	UPDATE stanje 
+                                SET cena ='".$_POST['cena']."' 
+                                WHERE datum>'".$_POST['date_of_price_change']."'
+                                AND id_artikla =  ".$_POST['id'];
+        $log .= $query.'<br/>';
+        $result = $mysqli->query($query);
+        $log .= $query.'<br/>';
+        //echo $query.'<br/>';
+        $date_time = date('Y-m-d H:m:s');
+        $query = 'INSERT INTO log (query,date_time) VALUES ("'.$log.'", "'.$date_time.'")';
+        //echo $query."</br>";
+        $result = $mysqli->query($query);
+        $message = 'Cena je uspesno izmenjena, nova cena jeste:'.$_POST['cena'].' za artikal: '.$_POST['ime'];
+        $message_flag = true;
+}
+else
+{
+        //if there is entry for selected date just update price for selected date and all dates in the future
+        $query = "	UPDATE stanje 
+                                SET cena ='".$_POST['cena']."' 
+                                WHERE datum>='".$_POST['date_of_price_change']."'
+                                AND id_artikla =  ".$_POST['id'];
+        $log .= $query.'<br/>';
+        $result = $mysqli->query($query);
+        //echo $query;
+                if ($mysqli->error) {
+                        try {    
+                                throw new Exception("MySQL error $mysqli->error <br> Query:<br> $query", $mysqli->errno);    
+                        } catch(Exception $e ) {
+                                echo "Error No: ".$e->getCode(). " - ". $e->getMessage() . "<br >";
+                                echo nl2br($e->getTraceAsString());
+                                echo '<span style="color:red"></br></br>Došlo je do greške pri izmeni cene.</span></br></br>';
+                        }
+                }
+        $date_time = date('Y-m-d H:m:s');
+        $query = 'INSERT INTO log (query,date_time) VALUES ("'.$log.'", "'.$date_time.'")';
+        //echo $query."</br>";
+        $result = $mysqli->query($query);
+        $message = 'Cena je uspesno izmenjena, nova cena jeste:'.$_POST['cena'].' za artikal: '.$_POST['ime'];
+        $message_flag = true;
+        }
                         
 }
 

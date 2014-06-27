@@ -1,0 +1,45 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {background:white;	color:black;font: 13pt bold Arial, Helvetica, sans-serif;}
+.title {display:block;border-bottom:#333 solid thin;font: bold 40px "Times New Roman", Times, serif;text-align:center;
+	padding:20px;color:#666}
+/*DIV*/
+.left {	float:left;	text-align:right;padding:10px;display:table-cell;width:120px;}
+.left400 {float:left;text-align:right;padding:10px;display:table-cell;width:400px;}
+.right {float:right;text-align:left;padding:10px;display:table-cell;width:680px;}
+.right500 {	float:right;text-align:left;padding:10px;display:table-cell;width:500px;}
+.clearfloat {clear:both; height:0; font-size: 1px; line-height: 0px;}
+.result {padding: 5px;width:200px;margin:12px;}
+.column_right{float:right; display:inline-block; width:100px; text-align:center; background-color:#D7D7D7; 
+				height:inherit; padding:5px }
+.column_left{float:left; display:inline-block; width:620px}
+.col_left{display:table-cell; width:110px; min-height:30px; vertical-align:middle; padding:5px;}
+.col_mid{display: table-cell;width: 484px;vertical-align: middle;padding: 5px;border-top-width: 0px;
+	border-right-width: 3px;border-bottom-width: 0px;border-left-width: 3px;border-color: #F03;border-style: solid;}
+.container{	padding-top:100px;width: 900px;	text-align: left;margin: 0 auto;}
+.container2{width: 1094px;text-align: left;	margin: 0 auto;}
+.result{padding: 5px;width:200px;margin:12px auto;}
+
+
+input{background-color:#CCC}
+textarea{background-color:#CCC}
+
+a.result2:link {color: #009;text-decoration:none;}
+a.result2:visited {	color: #009;}
+a.result2:hover {color: red;}
+a.result2:active {	color: red;}
+
+.blueBold {	font-family:Arial, Helvetica, sans-serif; font-weight:bold;	color:#009;	font-size:24px;}
+.warning { color:#F00;}
+.redBack { background-color: #FF4646;}
+.greenBack { background-color: #0A0;}
+td { padding:10px;}
+.title_backend { margin:50px; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold;
+				color: #00F;text-decoration: underline;text-align: center;}
+.table_container{width:730px; background-color:#D7D7D7; margin:0 auto}
+.tr_color_1{background-color:#C0C0C0; display:table-row;}
+.tr_color_2{background-color:#D7D7D7; display:table-row;}
+.plavo {background-color:#09C;}
+.zeleno {background-color:#096}
+.line {width:auto; height:3px; background-color:#F03}
